@@ -130,3 +130,4 @@ For single items, append the ID:
 - Use ES6+ features like async/await, template literals, and destructuring
 - Test navigation between different views (e.g., from character to episode to another character)
 - Handle empty states appropriately (e.g., locations with no residents)
+# rick-and-morty
