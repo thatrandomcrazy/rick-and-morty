@@ -2,22 +2,31 @@
  * Character Detail Page Script
  * Handles the display of detailed information for a single character
  */
-
 /**
  * Loads and displays details for a specific character
  * @param {string} id - The character ID to load
  */
+document.addEventListener("DOMContentLoaded", () => {
+  loadCharacterDetails();
+});
 function loadCharacterDetails(id) {
-  // TODO: Implement character detail loading
-  // 1. Show loading state
-  // 2. Fetch character data using the API module
-  // 3. Extract episode IDs from character.episode URLs
-  // 4. Fetch all episodes this character appears in
-  // 5. Update UI with character and episode data
-  // 6. Handle any errors
-  // 7. Hide loading state
-  throw new Error("loadCharacterDetails not implemented");
+  function HideLoading() {
+    const loadingMessage = document.getElementById("loading-message");
+    loadingMessage.style.display = "none";
+  }
+  HideLoading();
+  
 }
+
+// TODO: Implement character detail loading
+// 1. Show loading state
+// 2. Fetch character data using the API module
+// 3. Extract episode IDs from character.episode URLs
+// 4. Fetch all episodes this character appears in
+// 5. Update UI with character and episode data
+// 6. Handle any errors
+// 7. Hide loading state
+// throw new Error("loadCharacterDetails not implemented");
 
 /**
  * Updates the UI with character and episode data
