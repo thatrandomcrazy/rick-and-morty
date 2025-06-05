@@ -37,46 +37,54 @@ function updateUI() {
 
     results.forEach(obj => {
       const card = document.createElement("article");
+      const characterCard = document.createElement("div");
+      characterCard.classList.add("characterCard");
       card.classList.add("card");
-      card.addEventListener("click",()=>{
-        window.location.replace("character-detail.html");
-      })
+      
       // img
       const imgUrl = `${obj.image}`;
       const img = document.createElement("img");
       img.id = `${obj.id}.img`;
       img.src = imgUrl;
       card.appendChild(img);
-
+      //name and status  
+      const nameStatus = document.createElement("div");
+      nameStatus.classList.add("section");
       // name
       const name = document.createElement("h2");
+      name.style.cursor= "pointer";
       name.textContent = obj.name;
       name.id = `${obj.id}.name`;
-      card.appendChild(name);
+      name.addEventListener("click",()=>{
+        window.location.replace(`character-detail.html/?id=${obj.id}`);
+      })
+      nameStatus.appendChild(name);
       // status
       const status = document.createElement("span");
-      status.innerHTML =`<span> Status: <h2>${obj.status}</h2><span>`;
+      status.textContent =`${obj.status} - ${obj.species}`;
       status.id = `${obj.id}.status`;
-      card.appendChild(status);
-      // species 
-      const species = document.createElement("h2");
-      species.textContent = obj.species;
-      species.id = `${obj.id}.species`;
-      card.appendChild(species);
+      nameStatus.appendChild(status);
+
+      characterCard.appendChild(nameStatus);
+      
       // location
-      const location = document.createElement("h2");
-      location.textContent = obj.species;
+      const location = document.createElement("span");
+      location.textContent = obj.origin.name;
       location.id = `${obj.id}.location`;
-      card.appendChild(location);
-
-
-
+      characterCard.appendChild(location);
+      
+      
+      
+      card.appendChild(characterCard)
       wrapper.appendChild(card);
     });
   } else {
     console.warn("No character data available to update the UI.");
   }
   // 4. Update pagination UI
+  //create pages next
+
+
 
 }
 
