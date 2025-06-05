@@ -9,16 +9,7 @@
 // 3. Load character details if ID is valid
 // 4. Show error if ID is invalid or missing
 
-document.addEventListener("DOMContentLoaded", () => {
-  // שלב 1: שליפת id מה-URL
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-  if (!id || isNaN(id)) {
-    displayError("Invalid character ID.");
-    return;
-  }
-  loadCharacterDetails(id);
-});
+document.addEventListener("DOMContentLoaded", loadCharacterDetails);
 
 function showLoading() {
   const loadingMessage = document.getElementById("loading-message");
@@ -45,22 +36,32 @@ function displayError(message) {
 }
 
 // שלב 2-4: שליפת דמות ופרקים ועדכון UI
-function loadCharacterDetails(id) {
+function loadCharacterDetails() {
   showLoading();
+  // שלב 1: שליפת id מה-URL
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  console.log(id);
+  
+  if (!id || isNaN(id)) {
+    console.log("is NaN");
+    displayError("Invalidsss character ID.");
 
+    return;
+  }
   fetch(`https://rickandmortyapi.com/api/character/${id}`)
     .then((response) => {
       if (!response.ok) throw Error("Network response was not ok");
       return response.json();
     })
     .then((character) => {
+
+      console.log(character);
+      updateUI(character, []);
+      
       // שלב 3: חילוץ מזהי הפרקים
       const episodeIds = character.episode.map((url) => url.split("/").pop());
 
-      if (episodeIds.length === 0) {
-        updateUI(character, []);
-        return;
-      }
 
       // שלב 4: בקשה מרוכזת לכל הפרקים
       return fetch(
@@ -87,7 +88,7 @@ function loadCharacterDetails(id) {
 }
 
 function updateUI(character, episodes) {
-  const contentDiv = document.querySelector(".content");
+  const contentDiv = document.querySelector("#character_detail_content");
   if (!contentDiv) return;
 
   const originLink = character.origin?.url
@@ -108,16 +109,19 @@ function updateUI(character, episodes) {
   }
 
   contentDiv.innerHTML = `
-    <h2>${character.name}</h2>
+  <div class="container">  
+  <h2>${character.name}</h2>
     <img src="${character.image}" alt="${character.name}" />
-    <p>Status: ${character.status}</p>
-    <p>Species: ${character.species}</p>
-    <p>Gender: ${character.gender}</p>
-    <p>Origin: ${originLink}</p>
-    <p>Location: ${locationLink}</p>
+    <span>Status: ${character.status}</span>
+    <span>Species: ${character.species}</span>
+    <span>Gender: ${character.gender}</span>
+    <span>Origin: ${originLink}</span>
+    <span>Location: ${locationLink}</span>
+    </div>
     <h3>Episodes:</h3>
-    <ul>
+
+    <div class="container">
       ${episodesHtml}
-    </ul>
+    </div>
   `;
 }

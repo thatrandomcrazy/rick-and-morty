@@ -5,7 +5,7 @@ import { getContent } from "./services/services.js"
  */
 document.addEventListener("DOMContentLoaded", loadCharacters);
 const url = `https://rickandmortyapi.com/api/character/?page=`
-const content = document.querySelector(".content");
+const content = document.querySelector("#characters_list_content");
 let pagesCount;
 // State management for the characters page
 const state = {
@@ -60,7 +60,7 @@ function updateUI() {
       name.textContent = obj.name;
       name.id = `${obj.id}.name`;
       name.addEventListener("click", () => {
-        window.location.replace(`character-detail.html/?id=${obj.id}`);
+        window.location.replace(`character-detail.html?id=${obj.id}`);
       })
       nameStatus.appendChild(name);
       // status
@@ -82,96 +82,95 @@ function updateUI() {
       wrapper.appendChild(card);
     });
     // 4. Update pagination UI
-  //create pages next
- const paginations= document.createElement("div");
-   paginations.classList("pagination");
+    //create pages next
+    const paginations = document.createElement("div");
+    paginations.classList("pagination");
 
-  const paginationPrev = document.createElement("button");
-  paginationPrev.innerText = "Prev";
-  paginationPrev.id = "prev"
-  paginationPrev.onclick = () => {
-    container.remove();
-    state.page--;
-    const nextpage = url + state.page;
-    console.log(nextpage)
-    loadCharacters(url + state.page);
-  }
-  paginations.appendChild(paginationPrev)
-  const paginationNext = document.createElement("button");
-
-  paginationNext.innerText = "Next";
-  paginationNext.id = "next";
-  paginationNext.onclick = () => {
-    container.remove();
-    state.page++;
-    const nextpage = url + state.page;
-    console.log(nextpage)
-    loadCharacters(url + state.page);
-  }
-  paginations.appendChild(paginationNext);
-
-
-  //creating the 5 first buttons of 1 2 3 4 ...
-   pagesCount = state.data.info.pages;
-  
-  for (let i = 1; i <= pagesCount; i++) {
-    const pagi = document.createElement("button");
-    pagi.innerText = `${i}`;
-
-    pagi.onclick = () => {
-      state.page = i;
-      const ref = `location.ref= '${url + state.page}'`;
+    const paginationPrev = document.createElement("button");
+    paginationPrev.innerText = "Prev";
+    paginationPrev.id = "prev"
+    paginationPrev.onclick = () => {
       container.remove();
-      loadCharacters(ref);
-
+      state.page--;
+      const nextpage = url + state.page;
+      console.log(nextpage)
+      loadCharacters(url + state.page);
     }
-    paginations.appendChild(pagi);
-  }
-  container.appendChild(paginations)
+    paginations.appendChild(paginationPrev)
+    const paginationNext = document.createElement("button");
+
+    paginationNext.innerText = "Next";
+    paginationNext.id = "next";
+    paginationNext.onclick = () => {
+      container.remove();
+      state.page++;
+      const nextpage = url + state.page;
+      console.log(nextpage);
+      loadCharacters(url + state.page);
+    }
+    paginations.appendChild(paginationNext);
+
+
+    //creating the 5 first buttons of 1 2 3 4 ...
+    pagesCount = state.data.info.pages;
+
+    for (let i = 1; i <= pagesCount; i++) {
+      const pagi = document.createElement("button");
+      pagi.innerText = `${i}`;
+
+      pagi.onclick = () => {
+        state.page = i;
+        const ref = `location.ref= '${url + state.page}'`;
+        container.remove();
+        loadCharacters(ref);
+      }
+      paginations.appendChild(pagi);
+    }
+    container.appendChild(paginations)
   } else {
     console.warn("No character data available to update the UI.");
   }
-  
+
 }
-  const ShowPageNextPrev = () => {
-    const next = document.getElementById("next");
-    const prev = document.getElementById("prev");
+const ShowPageNextPrev = () => {
+  const next = document.getElementById("next");
+  const prev = document.getElementById("prev");
 
-    if (state.page == pagesCount) {
-      next.style.display = "none";
-    } else {
-      next.style.display = "block";
-
-    }
-    if (state.page == 1) {
-      
-      prev.style.display = "none";
-    } else {
-      prev.style.display = "block";
-    }
-  }
-  /**
-   * Loads character data from the API
-   */
-  async function loadCharacters() {
-    // TODO: Implement character loading
-    // 1. Show loading state
-    const loader = document.querySelector(".loading");
-    loader.style.display = "block";
-    content.style.display = "none";
-    // 2. Fetch character data using the API module
-    const URL = url + state.page;
-    const data = getContent(URL);
-    data.then(res => {
-      state.data = res;
-      loader.style.display = "none";
-      content.style.display = "block";
-
-      updateUI();
-      ShowPageNextPrev();
-    }).catch(error => console.warn("error: ", error));
+  if (state.page == pagesCount) {
+    next.style.display = "none";
+  } else {
+    next.style.display = "block";
 
   }
+  if (state.page == 1) {
+
+    prev.style.display = "none";
+  } else {
+    prev.style.display = "block";
+  }
+}
+/**
+ * Loads character data from the API
+ */
+async function loadCharacters() {
+  // TODO: Implement character loading
+  // 1. Show loading state
+  const loader = document.querySelector(".loading");
+  loader.style.display = "block";
+  content.style.display = "none";
+  // 2. Fetch character data using the API module
+  const URL = url + state.page;
+  const data = getContent(URL);
+  data.then(res => {
+    state.data = res;
+    loader.style.display = "none";
+    content.style.display = "block";
+
+    updateUI();
+    ShowPageNextPrev();
+  }).catch(error => console.warn("error: ", error));
+
+}
 
 // TODO: Add event listeners
 // 1. Previous page button click
