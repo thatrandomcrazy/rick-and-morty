@@ -1,4 +1,4 @@
-import {getContent} from "./services/services.js"
+import { getContent } from "./services/services.js"
 /**
  * Characters Page Script
  * Handles the display and interaction of the characters list page
@@ -19,19 +19,63 @@ const state = {
  * @param {Object} data.info - Pagination information
  */
 function updateUI() {
-  console.log(state.data.results[0]);
-  state.data.results.forEach(obj => {
-    const character = JSON.stringify(obj);
-    content.textContent += `${(character)}`;
-    
-  });
   // TODO: Implement the UI update
   // 1. Get the grid element
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("wrapper");
+  content.appendChild(wrapper);
+
   // 2. Clear existing content
+  
   // 3. For each character in data.results:
   //    - Create a card element
   //    - Add character image, name, status, species, location
   //    - Make the card clickable (link to character-detail.html)
+  if (state.data && state.data.results) {
+
+    const results = state.data.results;
+
+    results.forEach(obj => {
+      const card = document.createElement("article");
+      card.classList.add("card");
+      card.addEventListener("click",()=>{
+        window.location.replace("character-detail.html");
+      })
+      // img
+      const imgUrl = `${obj.image}`;
+      const img = document.createElement("img");
+      img.id = `${obj.id}.img`;
+      img.src = imgUrl;
+      card.appendChild(img);
+
+      // name
+      const name = document.createElement("h2");
+      name.textContent = obj.name;
+      name.id = `${obj.id}.name`;
+      card.appendChild(name);
+      // status
+      const status = document.createElement("span");
+      status.innerHTML =`<span> Status: <h2>${obj.status}</h2><span>`;
+      status.id = `${obj.id}.status`;
+      card.appendChild(status);
+      // species 
+      const species = document.createElement("h2");
+      species.textContent = obj.species;
+      species.id = `${obj.id}.species`;
+      card.appendChild(species);
+      // location
+      const location = document.createElement("h2");
+      location.textContent = obj.species;
+      location.id = `${obj.id}.location`;
+      card.appendChild(location);
+
+
+
+      wrapper.appendChild(card);
+    });
+  } else {
+    console.warn("No character data available to update the UI.");
+  }
   // 4. Update pagination UI
 
 }
@@ -51,10 +95,10 @@ async function loadCharacters() {
   const url = `https://rickandmortyapi.com/api/character/?page=${state.page}`
   const data = getContent(url);
   data.then(res => {
-     state.data = res;
-     loader.style.display = "none"
-     content.style.display = "block"
-     updateUI();
+    state.data = res;
+    loader.style.display = "none"
+    content.style.display = "block"
+    updateUI();
   }).catch(error => console.warn("error: ", error));
   // 3. Update UI with the results
   // 4. Handle any errors

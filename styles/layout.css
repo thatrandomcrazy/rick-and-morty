@@ -1,0 +1,64 @@
+.wrapper {
+    display: grid;
+    gap: 16px;
+}
+
+.card {
+    grid-template-columns: auto;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: visible;
+    word-break: break-word;
+    color: white;
+    flex-direction: row;
+    align-items: flex-start;
+    cursor: pointer;
+    background: rgb(39, 43, 51);
+
+}
+
+.card img {
+    width: auto;
+    height: auto;
+    max-width: 150px;
+    max-height: 200px;
+    margin-right: 16px;
+    object-fit: contain;
+    display: block;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+span {
+    margin-right: 12px;
+    /* or your preferred spacing */
+
+}
+
+.card h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.card h2:hover {
+    color: rgb(255, 152, 0);
+    /* background: rgb(32, 35, 41); */
+}
+
+
+@media (min-width: 600px) {
+    .wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 599px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+}
