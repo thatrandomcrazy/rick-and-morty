@@ -84,19 +84,41 @@ function updateUI() {
     // 4. Update pagination UI
     //create pages next
     const paginations = document.createElement("div");
-    paginations.classList("pagination");
+    paginations.classList.add("pagination");
+    container.appendChild(paginations);
+    
 
     const paginationPrev = document.createElement("button");
     paginationPrev.innerText = "Prev";
-    paginationPrev.id = "prev"
+    paginationPrev.id = "prev";
     paginationPrev.onclick = () => {
       container.remove();
       state.page--;
-      const nextpage = url + state.page;
-      console.log(nextpage)
       loadCharacters(url + state.page);
     }
     paginations.appendChild(paginationPrev)
+    
+
+
+    //creating the 5 first buttons of 1 2 3 4 ...
+    pagesCount = state.data.info.pages;
+    let i = state.page >= 3 ? state.page - 2 : 1;
+    
+    let limit = state.page<=pagesCount-3 ? state.page+3: pagesCount;
+    for ( i; i < limit; i++) {
+      const pagi = document.createElement("button");
+      
+      pagi.id= i+".pagi"
+      pagi.innerText = `${i}`;
+      
+      pagi.onclick = () => {
+        state.page = parseInt(pagi.innerText);
+        container.remove();
+        loadCharacters();
+        pagi.style.background="red";
+      }
+      paginations.appendChild(pagi);
+    }
     const paginationNext = document.createElement("button");
 
     paginationNext.innerText = "Next";
@@ -104,29 +126,9 @@ function updateUI() {
     paginationNext.onclick = () => {
       container.remove();
       state.page++;
-      const nextpage = url + state.page;
-      console.log(nextpage);
-      loadCharacters(url + state.page);
+      loadCharacters();
     }
     paginations.appendChild(paginationNext);
-
-
-    //creating the 5 first buttons of 1 2 3 4 ...
-    pagesCount = state.data.info.pages;
-
-    for (let i = 1; i <= pagesCount; i++) {
-      const pagi = document.createElement("button");
-      pagi.innerText = `${i}`;
-
-      pagi.onclick = () => {
-        state.page = i;
-        const ref = `location.ref= '${url + state.page}'`;
-        container.remove();
-        loadCharacters(ref);
-      }
-      paginations.appendChild(pagi);
-    }
-    container.appendChild(paginations)
   } else {
     console.warn("No character data available to update the UI.");
   }
@@ -173,7 +175,5 @@ async function loadCharacters() {
 }
 
 // TODO: Add event listeners
-// 1. Previous page button click
-// 2. Next page button click
 // 3. Search input with debounce
 // 4. Call loadCharacters() on page load
