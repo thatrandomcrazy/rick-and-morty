@@ -10,22 +10,43 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCharacterDetails();
 });
 function loadCharacterDetails(id) {
-  function HideLoading() {
+  // TODO: Implement character detail loading
+  // 1. Show loading state
+  function showLoading() {
     const loadingMessage = document.getElementById("loading-message");
-    loadingMessage.style.display = "none";
+    if (loadingMessage) {
+      loadingMessage.style.display = "block";
+    }
   }
-  HideLoading();
-  
+  showLoading();
+
+  // 2. Fetch character data using the API module
+
+  fetch(`https://rickandmortyapi.com/api/character/${id}`)
+    .then((Response) => {
+      if (!Response.ok) throw Error("response was not ok");
+      return Response.json();
+    })
+    .then((Data) => {})
+    .catch((error) => {
+      console.error("fetch error: ", error);
+    })
+    .finally(() => {
+      HideLoading();
+    });
 }
 
-// TODO: Implement character detail loading
-// 1. Show loading state
-// 2. Fetch character data using the API module
+// 7. Hide loading state
+function HideLoading() {
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.style.display = "none";
+  }
+}
 // 3. Extract episode IDs from character.episode URLs
 // 4. Fetch all episodes this character appears in
 // 5. Update UI with character and episode data
 // 6. Handle any errors
-// 7. Hide loading state
 // throw new Error("loadCharacterDetails not implemented");
 
 /**
