@@ -1,3 +1,4 @@
+import {getContent} from "./services/services.js"
 /**
  * Characters Page Script
  * Handles the display and interaction of the characters list page
@@ -58,20 +59,6 @@ async function loadCharacters() {
   // 3. Update UI with the results
   // 4. Handle any errors
   // 5. Hide loading state
-}
-const getContent = async (url) => {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return response.json();
-    }
-    else {
-      throw response.json();
-    }
-  }
-  catch (error) {
-    console.warn(error);
-  }
 }
 
 // TODO: Add event listeners
