@@ -2,49 +2,126 @@
  * Character Detail Page Script
  * Handles the display of detailed information for a single character
  */
-/**
- * Loads and displays details for a specific character
- * @param {string} id - The character ID to load
- */
-document.addEventListener("DOMContentLoaded", () => {
-  loadCharacterDetails();
-});
-function loadCharacterDetails(id) {
-  function HideLoading() {
-    const loadingMessage = document.getElementById("loading-message");
-    loadingMessage.style.display = "none";
-  }
-  HideLoading();
-  
-}
-
-// TODO: Implement character detail loading
-// 1. Show loading state
-// 2. Fetch character data using the API module
-// 3. Extract episode IDs from character.episode URLs
-// 4. Fetch all episodes this character appears in
-// 5. Update UI with character and episode data
-// 6. Handle any errors
-// 7. Hide loading state
-// throw new Error("loadCharacterDetails not implemented");
-
-/**
- * Updates the UI with character and episode data
- * @param {Object} character - The character data
- * @param {Array} episodes - Array of episode data
- */
-function updateUI(character, episodes) {
-  // TODO: Implement the UI update
-  // 1. Get the detail container element
-  // 2. Create character header with image and basic info
-  // 3. Add links to origin and current location
-  // 4. Create episodes section with all episodes the character appears in
-  // 5. Handle empty states and errors
-  throw new Error("updateUI not implemented");
-}
 
 // TODO: Initialize the page
 // 1. Get character ID from URL parameters
 // 2. Validate the ID
 // 3. Load character details if ID is valid
 // 4. Show error if ID is invalid or missing
+
+document.addEventListener("DOMContentLoaded", loadCharacterDetails);
+
+function showLoading() {
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.style.display = "block";
+  }
+}
+
+function hideLoading() {
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.style.display = "none";
+  }
+}
+
+function displayError(message) {
+  const errorContainer = document.getElementById("error-message");
+  if (errorContainer) {
+    errorContainer.textContent = message;
+    errorContainer.style.display = "block";
+  } else {
+    alert(message);
+  }
+}
+
+// שלב 2-4: שליפת דמות ופרקים ועדכון UI
+function loadCharacterDetails() {
+  showLoading();
+  // שלב 1: שליפת id מה-URL
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  console.log(id);
+  
+  if (!id || isNaN(id)) {
+    console.log("is NaN");
+    displayError("Invalidsss character ID.");
+
+    return;
+  }
+  fetch(`https://rickandmortyapi.com/api/character/${id}`)
+    .then((response) => {
+      if (!response.ok) throw Error("Network response was not ok");
+      return response.json();
+    })
+    .then((character) => {
+
+      console.log(character);
+      updateUI(character, []);
+      
+      // שלב 3: חילוץ מזהי הפרקים
+      const episodeIds = character.episode.map((url) => url.split("/").pop());
+
+
+      // שלב 4: בקשה מרוכזת לכל הפרקים
+      return fetch(
+        `https://rickandmortyapi.com/api/episode/${episodeIds.join(",")}`
+      )
+        .then((epResponse) => {
+          if (!epResponse.ok) throw Error("Failed to fetch episodes");
+          return epResponse.json();
+        })
+        .then((episodesData) => {
+          // אם יש רק פרק אחד, ה-API מחזיר אובייקט ולא מערך
+          const episodes = Array.isArray(episodesData)
+            ? episodesData
+            : [episodesData];
+          updateUI(character, episodes);
+        });
+    })
+    .catch((error) => {
+      displayError(error.message || "An error occurred");
+    })
+    .finally(() => {
+      hideLoading();
+    });
+}
+
+function updateUI(character, episodes) {
+  const contentDiv = document.querySelector("#character_detail_content");
+  if (!contentDiv) return;
+
+  const originLink = character.origin?.url
+    ? `<a href="${character.origin.url}" target="_blank">${character.origin.name}</a>`
+    : character.origin?.name || "Unknown";
+
+  const locationLink = character.location?.url
+    ? `<a href="${character.location.url}" target="_blank">${character.location.name}</a>`
+    : character.location?.name || "Unknown";
+
+  let episodesHtml = "";
+  if (!episodes || episodes.length === 0) {
+    episodesHtml = "<li>No episodes found.</li>";
+  } else {
+    episodesHtml = episodes
+      .map((ep) => `<li>${ep.name} (${ep.episode})</li>`)
+      .join("");
+  }
+
+  contentDiv.innerHTML = `
+  <div class="container">  
+  <h2>${character.name}</h2>
+    <img src="${character.image}" alt="${character.name}" />
+    <span>Status: ${character.status}</span>
+    <span>Species: ${character.species}</span>
+    <span>Gender: ${character.gender}</span>
+    <span>Origin: ${originLink}</span>
+    <span>Location: ${locationLink}</span>
+    </div>
+    <h3>Episodes:</h3>
+
+    <div class="container">
+      ${episodesHtml}
+    </div>
+  `;
+}
