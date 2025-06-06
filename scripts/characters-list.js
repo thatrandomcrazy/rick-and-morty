@@ -105,7 +105,7 @@ function updateUI() {
     let i = state.page >= 3 ? state.page - 2 : 1;
     
     let limit = state.page<=pagesCount-3 ? state.page+3: pagesCount;
-    for ( i; i < limit; i++) {
+    for ( i; i <= limit; i++) {
       const pagi = document.createElement("button");
       
       pagi.id= i+".pagi"
