@@ -12,8 +12,7 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #f0f0f0;
@@ -34,4 +33,158 @@ a {
 
 a {
   text-decoration: none;
+}
+:root {
+  --rm-green: #97ce4c;
+  --rm-yellow: #f5e663;
+  --rm-blue: #30bced;
+  --rm-dark: #22223b;
+  --rm-card: #fffbe7;
+  --rm-card-dark: #2a2a40;
+  --rm-accent: #ff61a6;
+}
+
+/* רקע כללי */
+body {
+  background: linear-gradient(135deg, var(--rm-green) 0%, var(--rm-blue) 100%);
+  min-height: 100vh;
+}
+
+/* כותרות */
+h1, h2, h3, h4 {
+  color: var(--rm-dark);
+  letter-spacing: 1px;
+  margin-bottom: 0.5em;
+  text-shadow: 1px 2px 0 var(--rm-yellow), 0 0 2px #0002;
+}
+
+/* כרטיסים */
+.locations-grid,
+.residents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5em;
+  margin: 2em 0;
+  padding: 0 1em;
+}
+
+.location-card,
+.resident-card {
+  background: var(--rm-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px #0002, 0 1.5px 0 var(--rm-green);
+  padding: 1.2em;
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--rm-green);
+  cursor: pointer;
+}
+.location-card:hover,
+.resident-card:hover {
+  transform: translateY(-6px) scale(1.03) rotate(-1deg);
+  box-shadow: 0 8px 32px #0004, 0 2px 0 var(--rm-accent);
+  border-color: var(--rm-accent);
+  background: var(--rm-yellow);
+}
+
+.resident-card img,
+.location-card img {
+  border-radius: 50%;
+  border: 3px solid var(--rm-blue);
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  margin-bottom: 0.7em;
+  background: #fff;
+}
+
+.resident-info h4 {
+  margin: 0.3em 0 0.1em 0;
+  color: var(--rm-dark);
+}
+.resident-info p {
+  font-size: 0.95em;
+  color: #444;
+}
+
+/* חיפוש */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin: 2em 0 1em 0;
+}
+#search-input {
+  padding: 0.7em 1.2em;
+  border-radius: 24px;
+  border: 2px solid var(--rm-blue);
+  font-size: 1.1em;
+  width: 320px;
+  background: #fff;
+  transition: border 0.2s;
+}
+#search-input:focus {
+  border-color: var(--rm-accent);
+  outline: none;
+}
+
+/* פאגינציה */
+.pagination {
+  display: flex;
+  justify-content: center;
+  alig.content img {
+  border-radius: 12px;
+  border: 3px solid var(--rm-blue);
+  margin-bottom: 1em;
+  background: #fff;
+  max-width: 220px;
+  box-shadow: 0 2px 12px #0002;
+}
+.content ul {
+  margin: 1em 0 0 1.5em;
+  padding: 0;
+}
+.content li {
+  margin-bottom: 0.5em;
+  font-size: 1.08em;
+}n-items: center;
+  gap: 1.2em;
+  margin: 2em 0;
+}
+.pagination button {
+  background: var(--rm-blue);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6em 1.5em;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0002;
+}
+.pagination button:disabled {
+  background: #b0b0b0;
+  color: #eee;
+  cursor: not-allowed;
+}
+.pagination button:not(:disabled):hover {
+  background: var(--rm-accent);
+  transform: scale(1.07);
+}
+.content img {
+  border-radius: 12px;
+  border: 3px solid var(--rm-blue);
+  margin-bottom: 1em;
+  background: #fff;
+  max-width: 220px;
+  box-shadow: 0 2px 12px #0002;
+}
+.content ul {
+  margin: 1em 0 0 1.5em;
+  padding: 0;
+}
+.content li {
+  margin-bottom: 0.5em;
+  font-size: 1.08em;
 }
