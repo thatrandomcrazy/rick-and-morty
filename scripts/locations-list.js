@@ -17,48 +17,64 @@ const state = {
  * @param {Object} data.info - Pagination information
  */
 function updateUI(data) {
+  let content = document.querySelector("#locations_content");
+  if (!content) {
+    content = document.createElement("div");
+    content.id = "locations_content";
+    document.body.appendChild(content);
+  }
+  content.innerHTML = '';
+
+  // Search bar (persistent at top)
+  let searchDiv = document.querySelector(".search-bar");
+  if (!searchDiv) {
+    searchDiv = document.createElement("div");
+    searchDiv.className = "search-bar";
+    searchDiv.innerHTML = `
+      <input type="text" id="search-input" placeholder="Search locations..." autocomplete="off" />
+    `;
+    content.appendChild(searchDiv);
+    document.getElementById("search-input").addEventListener("input", handleSearchInput);
+  }
+
+  // Locations grid
   let grid = document.querySelector(".locations-grid");
   if (!grid) {
     grid = document.createElement("div");
-    grid.className = "locations-grid";
-    document.body.appendChild(grid);
+    grid.className = "locations-grid wrapper";
+    content.appendChild(grid);
   }
   grid.innerHTML = "";
 
-  // 1. Clear existing content and show locations
   if (!data.results || data.results.length === 0) {
     grid.innerHTML = "<p>No locations found.</p>";
-    return;
+  } else {
+    data.results.forEach((location) => {
+      const card = document.createElement("a");
+      card.className = "location-card card";
+      card.href = `location-detail.html?id=${location.id}`;
+      card.innerHTML = `
+        <h3>${location.name}</h3>
+        <span><strong>Type:</strong> ${location.type || "Unknown"}</span>
+        <span><strong>Dimension:</strong> ${location.dimension || "Unknown"}</span>
+        <span><strong>Residents:</strong> ${location.residents.length}</span>
+      `;
+      grid.appendChild(card);
+    });
   }
 
-  data.results.forEach((location) => {
-    const card = document.createElement("a");
-    card.className = "location-card";
-    card.href = `location-detail.html?id=${location.id}`;
-    card.innerHTML = `
-      <h3>${location.name}</h3>
-      <p><strong>Type:</strong> ${location.type || "Unknown"}</p>
-      <p><strong>Dimension:</strong> ${location.dimension || "Unknown"}</p>
-      <p><strong>Residents:</strong> ${location.residents.length}</p>
-    `;
-    grid.appendChild(card);
-  });
-
-  // 2. Pagination controls
+  // Pagination controls (persistent at bottom)
   let pagination = document.querySelector(".pagination");
   if (!pagination) {
     pagination = document.createElement("div");
     pagination.className = "pagination";
-    document.body.appendChild(pagination);
+    content.appendChild(pagination);
   }
   pagination.innerHTML = `
     <button id="prev-page" ${state.page <= 1 ? "disabled" : ""}>Prev</button>
     <span>Page ${state.page} of ${data.info.pages}</span>
-    <button id="next-page" ${
-      state.page >= data.info.pages ? "disabled" : ""
-    }>Next</button>
+    <button id="next-page" ${state.page >= data.info.pages ? "disabled" : ""}>Next</button>
   `;
-
   document.getElementById("prev-page").onclick = () => {
     if (state.page > 1) {
       state.page--;
@@ -165,19 +181,5 @@ function handleSearchInput(e) {
 
 // --- Initialize the page ---
 document.addEventListener("DOMContentLoaded", () => {
-  // Create search input
-  let searchDiv = document.querySelector(".search-bar");
-  if (!searchDiv) {
-    searchDiv = document.createElement("div");
-    searchDiv.className = "search-bar";
-    searchDiv.innerHTML = `
-      <input type="text" id="search-input" placeholder="Search locations..." autocomplete="off" />
-    `;
-    document.body.prepend(searchDiv);
-  }
-  document
-    .getElementById("search-input")
-    .addEventListener("input", handleSearchInput);
-
   loadLocations();
 });

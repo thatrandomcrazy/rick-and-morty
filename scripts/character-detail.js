@@ -104,24 +104,29 @@ function updateUI(character, episodes) {
     episodesHtml = "<li>No episodes found.</li>";
   } else {
     episodesHtml = episodes
-      .map((ep) => `<li>${ep.name} (${ep.episode})</li>`)
+      .map((ep) => `<li><span class='episode-title'>${ep.name}</span> <span class='episode-code'>(${ep.episode})</span></li>`)
       .join("");
   }
 
   contentDiv.innerHTML = `
-  <div class="container">  
-  <h2>${character.name}</h2>
-    <img src="${character.image}" alt="${character.name}" />
-    <span>Status: ${character.status}</span>
-    <span>Species: ${character.species}</span>
-    <span>Gender: ${character.gender}</span>
-    <span>Origin: ${originLink}</span>
-    <span>Location: ${locationLink}</span>
+    <div class="wrapper character-detail-wrapper">
+      <article class="card character-detail-card">
+        <img src="${character.image}" alt="${character.name}" class="character-detail-img" />
+        <div class="characterCard character-detail-info">
+          <h2>${character.name}</h2>
+          <span><strong>Status:</strong> ${character.status}</span>
+          <span><strong>Species:</strong> ${character.species}</span>
+          <span><strong>Gender:</strong> ${character.gender}</span>
+          <span><strong>Origin:</strong> ${originLink}</span>
+          <span><strong>Location:</strong> ${locationLink}</span>
+        </div>
+      </article>
     </div>
-    <h3>Episodes:</h3>
-
-    <div class="container">
-      ${episodesHtml}
+    <div class="episodes-section">
+      <h3>Episodes</h3>
+      <ul class="episodes-list">
+        ${episodesHtml}
+      </ul>
     </div>
   `;
 }

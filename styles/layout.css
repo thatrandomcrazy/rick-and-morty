@@ -116,6 +116,79 @@ h2 {
     /* background: rgb(32, 35, 41); */
 }
 
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 1.5rem 0;
+}
+
+#search-input {
+  width: 320px;
+  max-width: 90vw;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.1rem;
+  background: #fff;
+  color: #232526;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  justify-items: center;
+  align-items: stretch;
+  padding: 1rem 0 2rem 0;
+}
+
+.location-card.card {
+  background: rgb(60, 62, 68);
+  color: #fff;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12), 0 1.5px 4px rgba(0,0,0,0.07);
+  width: 220px;
+  min-height: 120px;
+  padding: 1rem 1rem 0.7rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s, transform 0.2s;
+  font-size: 1rem;
+}
+
+.location-card.card:hover {
+  box-shadow: 0 4px 18px rgba(255, 152, 0, 0.22), 0 2px 8px rgba(0,0,0,0.10);
+  transform: translateY(-3px) scale(1.03);
+  background: rgb(39, 43, 51);
+}
+
+.location-card.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  color: #ff9800;
+}
+
+.location-card.card span {
+  margin-bottom: 0.3rem;
+  font-size: 0.98rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 2rem 0 1rem 0;
+}
+
+.pagination button {
+  min-width: 70px;
+}
+
 
 @media (min-width: 900px) {
     .wrapper {
