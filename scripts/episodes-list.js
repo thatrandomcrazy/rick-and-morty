@@ -2,14 +2,15 @@
  * Episodes Page Script
  * Handles the display and interaction of the episodes list page
  */
-
+import { getContent } from "./services/services.js";
+document.addEventListener("DOMContentLoaded", loadEpisodes);
 // State management for the episodes page
 const state = {
   page: 1,
   data: null,
   search: "",
 };
-
+const url = `https://rickandmortyapi.com/api/episode/?page=`
 /**
  * Updates the UI with episode data
  * @param {Object} data - The episode data from the API
@@ -34,12 +35,15 @@ function updateUI(data) {
  */
 function loadEpisodes() {
   // TODO: Implement episode loading
+  getContent(url + state.page).then((data) => {
+    console.log(data);
+  })
+
   // 1. Show loading state
   // 2. Fetch episode data using the API module
   // 3. Update UI with the results
   // 4. Handle any errors
   // 5. Hide loading state
-  throw new Error("loadEpisodes not implemented");
 }
 
 // TODO: Add event listeners
