@@ -1,11 +1,11 @@
 import { getContent } from "./services/services.js"
-import { debounce } from "./utils/utils.js";
+import { debounce, ApiUrl } from "./utils/utils.js";
 /**
  * Characters Page Script
  * Handles the display and interaction of the characters list page
  */
 document.addEventListener("DOMContentLoaded", loadCharacters);
-const url = `https://rickandmortyapi.com/api/character/?page=`
+const url = `${ApiUrl.characters}?page=`
 const content = document.querySelector("#characters_list_content");
 let pagesCount;
 // State management for the characters page
@@ -57,7 +57,7 @@ function createCharacterCard(character) {
   return card;
 }
 
-function renderPagination(pagesCount, currentPage) {
+ function renderPagination(pagesCount, currentPage) {
   const pagination = document.createElement("div");
   pagination.classList.add("pagination");
 

@@ -116,6 +116,39 @@ h2 {
     /* background: rgb(32, 35, 41); */
 }
 
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 1.5rem 0;
+}
+
+#search-input {
+  width: 320px;
+  max-width: 90vw;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.1rem;
+  background: #fff;
+  color: #232526;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 2rem 0 1rem 0;
+}
+
+.pagination button {
+  min-width: 70px;
+}
+
 
 @media (min-width: 900px) {
     .wrapper {
