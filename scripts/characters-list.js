@@ -1,4 +1,5 @@
 import { getContent } from "./services/services.js"
+import { debounce } from "./utils/utils.js";
 /**
  * Characters Page Script
  * Handles the display and interaction of the characters list page
@@ -109,6 +110,7 @@ function ShowPageNextPrev() {
     }
   }
 }
+
 function updateUI() {
   clearContent();
   if (!state.data || !state.data.results) {
@@ -198,14 +200,8 @@ const searchBar = document.getElementById("search_bar_input");
 const characterSearch = new CharacterSearch(getContent, url);
 let searchMode = false;
 
-// Debounce utility
-function debounce(fn, delay) {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
-  };
-}
+
+
 
 const handleSearch = async () => {
   const value = searchBar.value.trim();
