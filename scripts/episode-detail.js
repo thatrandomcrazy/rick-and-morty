@@ -2,13 +2,14 @@
  * Episode Detail Page Script
  * Handles the display of detailed information for a single episode
  */
-
+import { getContent } from "./services/services";
 /**
  * Loads and displays details for a specific episode
  * @param {string} id - The episode ID to load
  */
 function loadEpisodeDetails(id) {
   // TODO: Implement episode detail loading
+    getContent();
   // 1. Show loading state
   // 2. Fetch episode data using the API module
   // 3. Extract character IDs from episode.characters URLs
