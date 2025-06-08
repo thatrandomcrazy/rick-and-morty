@@ -172,6 +172,7 @@ class CharacterSearch {
     const firstPage = await this.getContent(this.url + 1);
     this.pagesCount = firstPage.info.pages;
     let promises = [Promise.resolve(firstPage.results.filter(c => c.name.toLowerCase().includes(name.toLowerCase())))];
+    
     for (let i = 2; i <= this.pagesCount; i++) {
       promises.push(
         this.getContent(this.url + i).then(data =>

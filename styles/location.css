@@ -24,8 +24,6 @@
 }
 
 .location-card.card:hover {
-  /* box-shadow: 0 4px 18px rgba(255, 152, 0, 0.22), 0 2px 8px rgba(0,0,0,0.10); */
-  /* transform: translateY(-3px) scale(1.03); */
   background: rgb(39, 43, 51);
 }
 
