@@ -1,5 +1,6 @@
 @import "./utils.css";
 @import "./layout.css";
+@import "./location.css";
 /* Base styles */
 * {
   margin: 0;

@@ -36,6 +36,9 @@ function updateUI(data) {
     content.appendChild(searchDiv);
     document.getElementById("search-input").addEventListener("input", handleSearchInput);
   }
+  // Always set the input value to state.search so it persists after UI updates
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) searchInput.value = state.search;
 
   // Locations grid
   let grid = document.querySelector(".locations-grid");
