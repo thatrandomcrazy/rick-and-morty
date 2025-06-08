@@ -88,15 +88,16 @@ function loadCharacterDetails() {
 }
 
 function updateUI(character, episodes) {
+  console.log({character})
   const contentDiv = document.querySelector("#character_detail_content");
   if (!contentDiv) return;
-
+const urlLocationId = character.location?.url.split('/').pop()
   const originLink = character.origin?.url
-    ? `<a href="${character.origin.url}" target="_blank">${character.origin.name}</a>`
+    ? `<a href="location-detail.html?id=${urlLocationId}" target="_blank">${character.origin.name}</a>`
     : character.origin?.name || "Unknown";
 
-  const locationLink = character.location?.url
-    ? `<a href="${character.location.url}" target="_blank">${character.location.name}</a>`
+  const locationLink = character.location?.url.split('/').pop()
+    ? `<a href="location-detail.html?id=${urlLocationId}" target="_blank">${character.location.name}</a>`
     : character.location?.name || "Unknown";
 
   let episodesHtml = "";

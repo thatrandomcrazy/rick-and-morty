@@ -61,6 +61,8 @@ function updateUI(location, residents) {
     contentDiv.className = "content";
     document.body.appendChild(contentDiv);
   }
+  // Always ensure content is visible
+  contentDiv.style.display = "block";
 
   // 2. Create location header with basic info
   contentDiv.innerHTML = `

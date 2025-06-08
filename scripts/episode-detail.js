@@ -113,7 +113,7 @@ function updateUI(episode, characters) {
       card.style.cursor = 'pointer';
       card.onclick = () => window.location.href = `character-detail.html?id=${char.id}`;
       card.innerHTML = `
-        <img src="${char.image}" alt="${char.name}" style="max-width:100px;max-height:100px;border-radius:8px;">
+        <img src="${char.image}" alt="${char.name}" class="character-img">
         <div class="characterCard">
           <h3>${char.name}</h3>
           <span>${char.status} - ${char.species}</span><br>
