@@ -57,7 +57,7 @@ function createCharacterCard(character) {
   return card;
 }
 
-function renderPagination(pagesCount, currentPage) {
+ function renderPagination(pagesCount, currentPage) {
   const pagination = document.createElement("div");
   pagination.classList.add("pagination");
 
