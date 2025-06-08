@@ -93,7 +93,6 @@ function renderPagination(pagesCount, currentPage) {
 function ShowPageNextPrev() {
   const next = document.getElementById("nextPage");
   const prev = document.getElementById("prevPage");
-  console.log(next)
   if (next && prev) {
 
     if (state.page == pagesCount) {
@@ -130,7 +129,12 @@ function updateUI() {
 
 function changePage(page) {
   state.page = page;
-  loadCharacters();
+  if (searchMode) {
+    state.data.results = characterSearch.getPage(state.page);
+    updateUI();
+  } else {
+    loadCharacters();
+  }
 }
 
 async function loadCharacters() {
@@ -152,5 +156,79 @@ async function loadCharacters() {
   }
 }
 
-// TODO: Add event listeners
-// 3. Search input with debounce
+// SOLID-compliant search with pagination
+class CharacterSearch {
+  constructor(getContent, url) {
+    this.getContent = getContent;
+    this.url = url;
+    this.results = [];
+    this.pagesCount = 0;
+  }
+
+  async searchByName(name) {
+    // Fetch all pages in parallel and filter by name
+    const firstPage = await this.getContent(this.url + 1);
+    this.pagesCount = firstPage.info.pages;
+    let promises = [Promise.resolve(firstPage.results.filter(c => c.name.toLowerCase().includes(name.toLowerCase())))];
+    for (let i = 2; i <= this.pagesCount; i++) {
+      promises.push(
+        this.getContent(this.url + i).then(data =>
+          data.results.filter(c => c.name.toLowerCase().includes(name.toLowerCase()))
+        )
+      );
+    }
+    const resultsArray = await Promise.all(promises);
+    this.results = resultsArray.flat();
+    return this.results;
+  }
+
+  getPage(page, perPage = 20) {
+    // Return a slice of results for the current page
+    const start = (page - 1) * perPage;
+    return this.results.slice(start, start + perPage);
+  }
+
+  getTotalPages(perPage = 20) {
+    return Math.ceil(this.results.length / perPage);
+  }
+}
+
+// Usage in your UI logic
+const searchBar = document.getElementById("search_bar_input");
+const characterSearch = new CharacterSearch(getContent, url);
+let searchMode = false;
+
+// Debounce utility
+function debounce(fn, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
+
+const handleSearch = async () => {
+  const value = searchBar.value.trim();
+  if (value) {
+    searchMode = true;
+    await characterSearch.searchByName(value);
+    state.page = 1;
+    state.data = {
+      results: characterSearch.getPage(state.page),
+      info: { pages: characterSearch.getTotalPages() }
+    };
+    updateUI();
+  } else {
+    searchMode = false;
+    state.page = 1;
+    await loadCharacters();
+  }
+};
+
+searchBar.addEventListener("input", debounce(handleSearch, 300));
+
+const searchBarBtn = document.getElementById("search_bar_btn");
+searchBarBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  handleSearch();
+});
