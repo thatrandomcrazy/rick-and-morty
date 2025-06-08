@@ -2,43 +2,126 @@
  * Episode Detail Page Script
  * Handles the display of detailed information for a single episode
  */
-import { getContent } from "./services/services";
+import { getContent } from "./services/services.js";
+import { ApiUrl } from "./utils/utils.js"
+const url = `${ApiUrl.episodes}?page=`
+
+document.addEventListener("DOMContentLoaded", loadEpisodeDetails)
 /**
  * Loads and displays details for a specific episode
  * @param {string} id - The episode ID to load
  */
-function loadEpisodeDetails(id) {
-  // TODO: Implement episode detail loading
-    getContent();
-  // 1. Show loading state
-  // 2. Fetch episode data using the API module
-  // 3. Extract character IDs from episode.characters URLs
-  // 4. Fetch all characters that appear in this episode
-  // 5. Update UI with episode and character data
-  // 6. Handle any errors
-  // 7. Hide loading state
-  throw new Error("loadEpisodeDetails not implemented");
+function getEpisodeIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id');
 }
 
+async function loadEpisodeDetails() {
+  const id = getEpisodeIdFromUrl();
+  if (!id) {
+    displayError('No episode ID provided in URL.');
+    return;
+  }
+  showLoading();
+  try {
+    // Fetch episode data
+    const episodeUrl = `${url}1,2,3`;
+
+    const episodes = await getContent(episodeUrl);
+
+    // Extract character IDs from episode.characters URLs
+    const episode = episodes.results.find(data=> {
+      
+      return data.id == id;})
+      
+    const characterIds = episode.characters.map(url => url.split('/').pop()).join(',');
+
+    //look for the episode by id
+
+    let characters = [];
+    if (characterIds) {
+      // Fetch all characters in one request
+      const charUrl = `${ApiUrl.characters}/${characterIds}`;
+      const charData = await getContent(charUrl);
+      characters = Array.isArray(charData) ? charData : [charData];
+    }
+    updateUI(episode, characters);
+  } catch (error) {
+    displayError('Failed to load episode details.');
+    console.warn('error:', error);
+  } finally {
+    hideLoading();
+  }
+}
+
+function showLoading() {
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.style.display = "block";
+  }
+}
+
+function hideLoading() {
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.style.display = "none";
+  }
+}
+
+function displayError(message) {
+  const errorContainer = document.getElementById("error-message");
+  if (errorContainer) {
+    errorContainer.textContent = message;
+    errorContainer.style.display = "block";
+  } else {
+    console.warn(message);
+  }
+}
 /**
  * Updates the UI with episode and character data
  * @param {Object} episode - The episode data
  * @param {Array} characters - Array of character data
  */
 function updateUI(episode, characters) {
-  // TODO: Implement the UI update
-  // 1. Get the detail container element
-  // 2. Create episode header with basic info
-  // 3. Create characters section
-  // 4. For each character:
-  //    - Create a card with image and basic info
-  //    - Make the card link to the character detail page
-  // 5. Handle empty states (no characters)
-  throw new Error("updateUI not implemented");
+  const container = document.getElementById('episode_detail_content');
+  if (!container) return;
+  container.innerHTML = '';
+  // Episode header
+  const header = document.createElement('div');
+  header.className = 'episode-header';
+  header.innerHTML = `
+    <h2>${episode.name}</h2>
+    <p><strong>Air Date:</strong> ${episode.air_date}</p>
+    <p><strong>Episode:</strong> ${episode.episode}</p>
+  `;
+  container.appendChild(header);
+
+  // Characters grid wrapper
+  const wrapper = document.createElement('div');
+  wrapper.className = 'wrapper';
+  container.appendChild(wrapper);
+
+  // Characters section
+  if (characters.length === 0) {
+    const emptyMsg = document.createElement('p');
+    emptyMsg.textContent = 'No characters found for this episode.';
+    wrapper.appendChild(emptyMsg);
+  } else {
+    characters.forEach(char => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.style.cursor = 'pointer';
+      card.onclick = () => window.location.href = `character-detail.html?id=${char.id}`;
+      card.innerHTML = `
+        <img src="${char.image}" alt="${char.name}" style="max-width:100px;max-height:100px;border-radius:8px;">
+        <div class="characterCard">
+          <h3>${char.name}</h3>
+          <span>${char.status} - ${char.species}</span><br>
+          <span>Origin: ${char.origin.name}</span>
+        </div>
+      `;
+      wrapper.appendChild(card);
+    });
+  }
 }
 
-// TODO: Initialize the page
-// 1. Get episode ID from URL parameters
-// 2. Validate the ID
-// 3. Load episode details if ID is valid
-// 4. Show error if ID is invalid or missing
