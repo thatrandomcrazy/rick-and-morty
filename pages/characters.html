@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <title>Character List</title>
+</head>
+<body>
+      <nav class="main-nav">
+        <a href="characters">Characters</a>
+        <a href="locations">Locations</a>
+        <a href="episodes">Episodes</a>
+    </nav>
+    <div class="app">
+        <img class="app-bg-logo" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Rick_and_Morty.svg" alt="Rick and Morty Logo Background">
+        <h1>The Rick and Morty Web</h1>
+        <h2>Characters</h2>
+        <form  id="search_bar_form" >
+
+            <input type="text" id="search_bar_input" placeholder="Search..." > 
+            <button id="search_bar_btn">Search</button>
+        </form>
+        <div class="container">
+            <div class="loading">Loading...</div>
+            <div id="characters_list_content" class="content"></div>
+        </div>
+    </div>
+    <script type="module" src="../scripts/characters-list.js"></script>
+</body>
+</html>

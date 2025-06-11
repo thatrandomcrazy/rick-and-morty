@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "name": "starter-rock-and-morty",
+  "version": "1.0.0",
+  "description": "Create a web application that displays information about the Rick and Morty TV show using the [Rick and Morty API](https://rickandmortyapi.com/). The application will show characters, locations, and episodes from the show, with detailed views for each.",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thatrandomcrazy/rick-and-morty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/thatrandomcrazy/rick-and-morty/issues"
+  },
+  "homepage": "https://github.com/thatrandomcrazy/rick-and-morty#readme"
+}

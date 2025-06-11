@@ -1,0 +1,32 @@
+.loading {
+  display: block;
+
+  color: #ff9800;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.content {
+  display: none;
+
+  width: 100%;
+  min-height: 200px;
+  padding: 1rem 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.present {
+  display: block;
+}

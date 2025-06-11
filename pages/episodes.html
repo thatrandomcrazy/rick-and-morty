@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/main.css">
+
+  <title>Episodes</title>
+</head>
+
+<body>
+
+    <nav class="main-nav">
+        <a href="characters">Characters</a>
+        <a href="locations">Locations</a>
+        <a href="episodes">Episodes</a>
+    </nav>
+  <div class="app">
+ <img class="app-bg-logo" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Rick_and_Morty.svg" alt="Rick and Morty Logo Background">
+        <h1>The Rick and Morty Web</h1>
+        <h2>Episodes</h2>
+        <form  id="search_bar_form" >
+
+      <input type="text" id="search_bar_input_eps" placeholder="Search...">
+            <button id="search_bar_btn">Search</button>
+        </form>
+    <div class="container" id="episodes_container">
+      <div class="loading" id="loading_episodes">Loading...</div>
+      <div class="content" id="episodes_content"></div>
+    </div>
+  </div>
+  <script type="module" src="../scripts/episodes-list.js"></script>
+
+</body>
+
+</html>
