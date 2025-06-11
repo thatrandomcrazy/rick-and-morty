@@ -55,7 +55,7 @@ function updateUI(data) {
     data.results.forEach((location) => {
       const card = document.createElement("a");
       card.className = "location-card card";
-      card.href = `location-detail.html?id=${location.id}`;
+      card.href = `location-detail?id=${location.id}`;
       card.innerHTML = `
         <h3>${location.name}</h3>
         <span><strong>Type:</strong> ${location.type || "Unknown"}</span>

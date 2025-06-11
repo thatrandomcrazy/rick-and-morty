@@ -38,7 +38,7 @@ function createEpisodeCard(episode) {
   name.tabIndex = 0;
   name.style.cursor = "pointer";
   name.addEventListener("click", () => {
-    window.location.replace(`episode-detail.html?id=${episode.id}`);
+    window.location.replace(`episode-detail?id=${episode.id}`);
   });
 
   const airDate = document.createElement("span");

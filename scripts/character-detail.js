@@ -93,11 +93,11 @@ function updateUI(character, episodes) {
   if (!contentDiv) return;
 const urlLocationId = character.location?.url.split('/').pop()
   const originLink = character.origin?.url
-    ? `<a href="location-detail.html?id=${urlLocationId}" target="_blank">${character.origin.name}</a>`
+    ? `<a href="location-detail?id=${urlLocationId}" target="_blank">${character.origin.name}</a>`
     : character.origin?.name || "Unknown";
 
   const locationLink = character.location?.url.split('/').pop()
-    ? `<a href="location-detail.html?id=${urlLocationId}" target="_blank">${character.location.name}</a>`
+    ? `<a href="location-detail?id=${urlLocationId}" target="_blank">${character.location.name}</a>`
     : character.location?.name || "Unknown";
 
   let episodesHtml = "";

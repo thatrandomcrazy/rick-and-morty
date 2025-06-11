@@ -42,7 +42,7 @@ function createCharacterCard(character) {
   name.tabIndex = 0;
   name.style.cursor = "pointer";
   name.addEventListener("click", () => {
-    window.location.replace(`character-detail.html?id=${character.id}`);
+    window.location.replace(`character-detail?id=${character.id}`);
   });
 
   const status = document.createElement("span");

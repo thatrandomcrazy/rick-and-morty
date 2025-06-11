@@ -111,7 +111,7 @@ function updateUI(episode, characters) {
       const card = document.createElement('article');
       card.className = 'card';
       card.style.cursor = 'pointer';
-      card.onclick = () => window.location.href = `character-detail.html?id=${char.id}`;
+      card.onclick = () => window.location.href = `character-detail?id=${char.id}`;
       card.innerHTML = `
         <img src="${char.image}" alt="${char.name}" class="character-img">
         <div class="characterCard">

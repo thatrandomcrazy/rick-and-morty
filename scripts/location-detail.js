@@ -78,7 +78,7 @@ function updateUI(location, residents) {
           : residents
               .map(
                 (resident) => `
-          <a class="resident-card" href="character-detail.html?id=${resident.id}">
+          <a class="resident-card" href="character-detail?id=${resident.id}">
             <img src="${resident.image}" alt="${resident.name}" />
             <div class="resident-info">
               <h4>${resident.name}</h4>
